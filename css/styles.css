@@ -98,14 +98,25 @@ main {
   /* Liquid Glass inner shadow */
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 4px 20px -10px rgba(0, 0, 0, 0.5);
 
-  /* Performance: Animate only transform and opacity (and bg via filter/opacity if needed, but background-color is okay if small) */
-  transition: background-color 200ms var(--ease-out),
-    border-color 200ms var(--ease-out),
-    transform 160ms var(--ease-out);
-
+  /* Performance: Animate only transform and opacity via pseudo-element */
+  will-change: transform;
+  transition: border-color 200ms var(--ease-out),
+              transform 160ms var(--ease-out);
   transform-origin: center;
   position: relative;
   overflow: hidden;
+}
+
+/* Pseudo-element for performant hover background transition */
+.link-pill::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--card-bg-hover);
+  opacity: 0;
+  transition: opacity 200ms var(--ease-out);
+  z-index: -1;
+  pointer-events: none;
 }
 
 /* Active / Press State */
@@ -113,15 +124,33 @@ main {
   transform: scale(0.97);
 }
 
-.link-pill:hover {
-  background: var(--card-bg-hover);
-  border-color: var(--border-light);
+.link-pill:active .link-content,
+.link-pill:active .link-actions {
+  filter: blur(1px);
+  opacity: 0.8;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .link-pill:hover {
+    border-color: var(--border-light);
+  }
+  .link-pill:hover::before {
+    opacity: 1;
+  }
+  .link-pill:hover .link-icon {
+    color: var(--text-primary);
+  }
+  .link-pill:hover .arrow-icon {
+    opacity: 1;
+    transform: translateX(2px);
+  }
 }
 
 .link-content {
   display: flex;
   align-items: center;
   gap: 1rem;
+  transition: filter 160ms var(--ease-out), opacity 160ms var(--ease-out);
 }
 
 .link-icon {
@@ -132,10 +161,6 @@ main {
   height: 24px;
   color: var(--text-secondary);
   transition: color 200ms var(--ease-out);
-}
-
-.link-pill:hover .link-icon {
-  color: var(--text-primary);
 }
 
 .link-title {
@@ -149,6 +174,7 @@ main {
   align-items: center;
   gap: 0.75rem;
   color: var(--text-secondary);
+  transition: filter 160ms var(--ease-out), opacity 160ms var(--ease-out);
 }
 
 /* Make arrow always slightly visible and move on hover */
@@ -156,11 +182,6 @@ main {
   opacity: 0.5;
   transform: translateX(-4px);
   transition: opacity 200ms var(--ease-out), transform 200ms var(--ease-out);
-}
-
-.link-pill:hover .arrow-icon {
-  opacity: 1;
-  transform: translateX(2px);
 }
 
 /* Skeleton Loading State */
@@ -202,14 +223,14 @@ main {
 /* Entry Animation (@starting-style) */
 .category {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
   transition: opacity 600ms var(--ease-out), transform 600ms var(--ease-out);
 }
 
 @starting-style {
   .category {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(15px) scale(0.97);
   }
 }
 
@@ -282,4 +303,54 @@ main {
   filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.15));
   stroke-linecap: round;
   stroke-linejoin: round;
+}
+
+/* Accessibility: Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .category {
+    transition: opacity 400ms ease;
+    transform: none !important;
+  }
+  
+  @starting-style {
+    .category {
+      opacity: 0;
+      transform: none !important;
+    }
+  }
+
+  .link-pill:active {
+    transform: none !important;
+  }
+
+  .arrow-icon {
+    transition: opacity 200ms ease !important;
+    transform: none !important;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .link-pill:hover .arrow-icon {
+      transform: none !important;
+    }
+  }
+
+  .deco-element {
+    animation: decoFadeIn 1.2s ease forwards !important;
+    transform: none !important;
+    translate: 0 !important;
+  }
+  
+  .deco-float {
+    animation: none !important;
+    transform: none !important;
+  }
+}
+
+@keyframes decoFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0.8;
+  }
 }
