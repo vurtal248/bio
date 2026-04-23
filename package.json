@@ -1,0 +1,8 @@
+{
+  "name": "bio",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "dev": "npx -y serve ."
+  }
+}
