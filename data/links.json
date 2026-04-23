@@ -1,0 +1,28 @@
+{
+  "categories": [
+    {
+      "id": "social",
+      "title": "SOCIAL",
+      "links": [
+        {
+          "id": "github",
+          "title": "GitHub",
+          "url": "https://github.com/vurtal248",
+          "icon": "github"
+        }
+      ]
+    },
+    {
+      "id": "work",
+      "title": "WORK",
+      "links": [
+        {
+          "id": "portfolio",
+          "title": "Portfolio",
+          "url": "https://vurtal248.github.io/pt/",
+          "icon": "globe"
+        }
+      ]
+    }
+  ]
+}
