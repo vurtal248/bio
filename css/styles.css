@@ -87,21 +87,25 @@ main {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: var(--card-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 1rem;
-  padding: 1rem 1.25rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 1.25rem;
+  padding: 1.125rem 1.5rem;
   text-decoration: none;
   color: var(--text-primary);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  /* Liquid Glass inner shadow */
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 4px 20px -10px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  /* Liquid Glass inner shadow + Deep diffusion shadow */
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 0 20px rgba(255, 255, 255, 0.02),
+    0 20px 40px -15px rgba(0, 0, 0, 0.5);
 
   /* Performance: Animate only transform and opacity via pseudo-element */
   will-change: transform;
-  transition: border-color 200ms var(--ease-out),
-    transform 160ms var(--ease-out);
+  transition: border-color 400ms var(--ease-out),
+    transform 400ms var(--ease-out),
+    box-shadow 400ms var(--ease-out),
+    background 400ms var(--ease-out);
   transform-origin: center;
   position: relative;
   overflow: hidden;
@@ -112,27 +116,32 @@ main {
   content: '';
   position: absolute;
   inset: 0;
-  background: var(--card-bg-hover);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.0) 100%);
   opacity: 0;
-  transition: opacity 200ms var(--ease-out);
+  transition: opacity 400ms var(--ease-out);
   z-index: -1;
   pointer-events: none;
 }
 
 /* Active / Press State */
 .link-pill:active {
-  transform: scale(0.97);
+  transform: scale(0.98) translateY(1px);
 }
 
 .link-pill:active .link-content,
 .link-pill:active .link-actions {
-  filter: blur(1px);
+  filter: blur(0.5px);
   opacity: 0.8;
 }
 
 @media (hover: hover) and (pointer: fine) {
   .link-pill:hover {
-    border-color: var(--border-light);
+    border-color: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.04);
+    transform: translateY(-2px);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15),
+      inset 0 0 20px rgba(255, 255, 255, 0.04),
+      0 30px 50px -20px rgba(0, 0, 0, 0.8);
   }
 
   .link-pill:hover::before {
@@ -145,7 +154,7 @@ main {
 
   .link-pill:hover .arrow-icon {
     opacity: 1;
-    transform: translateX(2px);
+    transform: translateX(4px);
   }
 }
 
