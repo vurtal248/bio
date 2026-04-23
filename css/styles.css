@@ -101,7 +101,7 @@ main {
   /* Performance: Animate only transform and opacity via pseudo-element */
   will-change: transform;
   transition: border-color 200ms var(--ease-out),
-              transform 160ms var(--ease-out);
+    transform 160ms var(--ease-out);
   transform-origin: center;
   position: relative;
   overflow: hidden;
@@ -134,12 +134,15 @@ main {
   .link-pill:hover {
     border-color: var(--border-light);
   }
+
   .link-pill:hover::before {
     opacity: 1;
   }
+
   .link-pill:hover .link-icon {
     color: var(--text-primary);
   }
+
   .link-pill:hover .arrow-icon {
     opacity: 1;
     transform: translateX(2px);
@@ -299,7 +302,8 @@ main {
 .deco-math-svg {
   width: 90px;
   height: 90px;
-  color: rgba(255, 255, 255, 0.35); /* Ethereal white */
+  color: rgba(255, 255, 255, 0.35);
+  /* Ethereal white */
   filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.15));
   stroke-linecap: round;
   stroke-linejoin: round;
@@ -311,7 +315,7 @@ main {
     transition: opacity 400ms ease;
     transform: none !important;
   }
-  
+
   @starting-style {
     .category {
       opacity: 0;
@@ -339,7 +343,7 @@ main {
     transform: none !important;
     translate: 0 !important;
   }
-  
+
   .deco-float {
     animation: none !important;
     transform: none !important;
@@ -350,6 +354,7 @@ main {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 0.8;
   }
